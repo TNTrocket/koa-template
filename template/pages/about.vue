@@ -1,29 +1,35 @@
-{{{{raw}}}}
+
 <template>
   <section class="container">
     <img src="../assets/img/logo.png" alt="Nuxt.js Logo" class="logo" />
     <h1 class="title">
-      This page is loaded from the {{ name }}
+      This page is loaded from the {{ a }}
     </h1>
-    <h2 class="info" v-if="name === 'client'">
+    <h2 class="info" v-if="a === 'client'">
       Please refresh the page
     </h2>
-    <nuxt-link class="button" to="/">
+    <nuxt-link class="button" to="/test">
       Home page
     </nuxt-link>
   </section>
 </template>
-{{{{/raw}}}}
+
 <script>
+  import axios from 'axios'
 export default {
-  asyncData ({ req }) {
-    return {
-      name: req ? 'server' : 'client'
-    }
+   asyncData ({ req }) {
+    return  axios.get('http://localhost:3000/api')
+        .then( (response)=>{
+          console.log(response);
+          return response.data
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
   },
   head () {
     return {
-      title: `About Page (${this.name}-side)`
+      title: `About Page -side)`
     }
   }
 }
